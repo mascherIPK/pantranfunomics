@@ -94,8 +94,8 @@ cd ~/international_masters/rice_assemblies/
 +
 [source,sh]
 ----
-ln -s ~/international_masters/downloads/IR64.fasta
-ln -s ~/international_masters/downloads/Nipponbare.fasta
+ln -s ~/downloads/IR64.fasta
+ln -s ~/downloads/Nipponbare.fasta
 ----
 
 . Create index files that record the chromosome lengths in each assembly.
@@ -110,10 +110,10 @@ samtools faidx Nipponbare.fasta
 +
 [source,sh]
 ----
-minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nipponbare_IR64.paf.err  #<1><2><3>
+minimap2 -I100M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nipponbare_IR64.paf.err  #<1><2><3>
 ----
 <1> The parameter preset `-x asm5` is suited to align assemblies from the same species. 
-<2> The value of `-I` is reduced from the default (4G) to run our small VM.
+<2> The value of `-I` is reduced to 100 MB from the default 4 GB to run our small VM.
 <3> `>` and `2>` are used to direct the standard output (stdout) and standard error (stderr).
 
 . Send the `minimap2` process to the background with Ctrl-Z. Resume it with `bg`. Check with `top` that it's running.
@@ -151,16 +151,13 @@ git clone https://github.com/tpoorten/dotPlotly.git
 ./dotPlotly/pafCoordsDotPlotly.R -i Nipponbare_IR64_sorted.paf -o Nipponbare_IR64 -m 1000 -l 
 ----
 
-. Copy the files to your main system and open them.
+. Copy the files to the Windows desktop and open them.
 +
 [source,sh]
 ----
+cp Nipponbare_IR64.png /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
+cp Nipponbare_IR64.htma /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
 ----
-
-////
-scp mascher@vm-101:~/international_masters/rice_assemblies/Nipponbare_IR64.png .
-scp mascher@vm-101:~/international_masters/rice_assemblies/Nipponbare_IR64.html .
-////
 
 === Comparing a single gene in two assemblies
 

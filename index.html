@@ -672,8 +672,8 @@ less Nipponbare.fasta</code></pre>
 <p>Create symbolic links to the FASTA files of the assemblies in the downloads folder.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/downloads/IR64.fasta
-ln -s ~/international_masters/downloads/Nipponbare.fasta</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/IR64.fasta
+ln -s ~/downloads/Nipponbare.fasta</code></pre>
 </div>
 </div>
 </li>
@@ -690,7 +690,7 @@ samtools faidx Nipponbare.fasta</code></pre>
 <p>Align the two assemblies with <a href="https://github.com/lh3/minimap2">minimap2</a>.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta &gt; Nipponbare_IR64.paf <span class="tok-m">2</span>&gt; Nipponbare_IR64.paf.err  <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b> <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>minimap2 -I100M -x asm5 Nipponbare.fasta IR64.fasta &gt; Nipponbare_IR64.paf <span class="tok-m">2</span>&gt; Nipponbare_IR64.paf.err  <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b> <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -701,7 +701,7 @@ samtools faidx Nipponbare.fasta</code></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The value of <code>-I</code> is reduced from the default (4G) to run our small VM.</td>
+<td>The value of <code>-I</code> is reduced to 100 MB from the default 4 GB to run our small VM.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -751,10 +751,11 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 </div>
 </li>
 <li>
-<p>Copy the files to your main system and open them.</p>
+<p>Copy the files to the Windows desktop and open them.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"></code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>cp Nipponbare_IR64.png /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/Desktop/
+cp Nipponbare_IR64.htma /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/Desktop/</code></pre>
 </div>
 </div>
 </li>
@@ -1112,7 +1113,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-02 13:00:11 +0100
+Last updated 2023-11-02 13:32:50 +0100
 </div>
 </div>
 </body>
