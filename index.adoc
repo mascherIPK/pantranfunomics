@@ -136,28 +136,14 @@ less -S Nipponbare_IR64.paf
 column -t Nipponbare_IR64.paf | less -S
 ----
 
-. Install https://github.com/tpoorten/dotPlotly[dotPlotly] from Github and check that it works.
+. Copy the PAF file to the Windows desktop and open them.
 +
 [source,sh]
 ----
-git clone https://github.com/tpoorten/dotPlotly.git
-./dotPlotly/pafCoordsDotPlotly.R -h
+cp Nipponbare_IR64.paf /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
 ----
 
-. Create a dotplot from PAF alignment file.
-+
-[source,sh]
-----
-./dotPlotly/pafCoordsDotPlotly.R -i Nipponbare_IR64_sorted.paf -o Nipponbare_IR64 -m 1000 -l 
-----
-
-. Copy the files to the Windows desktop and open them.
-+
-[source,sh]
-----
-cp Nipponbare_IR64.png /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
-cp Nipponbare_IR64.htma /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
-----
+. Load the PAF file into the https://tom-poorten.shinyapps.io/dotplotly_shiny/[Dotplotly] app. 
 
 === Comparing a single gene in two assemblies
 
@@ -165,7 +151,7 @@ cp Nipponbare_IR64.htma /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
 +
 [source,sh]
 ----
-ln -s ~/international_masters/donwloads/pla1.fasta 
+ln -s ~/downloads/pla1.fasta 
 less pla1.fasta
 ----
 
@@ -186,15 +172,6 @@ blastn -db IR64.fasta -query pla1.fasta -outfmt 6 > pla1_IR64.txt
 ----
 <1> `-outfmt 6` means http://www.metagenomics.wiki/tools/blast/blastn-output-format-6[tabular] output.
 
-. Compare the results to BLAST web tool provided on the https://rootomics.dna.affrc.go.jp/en/research/IR64[ROOTomics website].
-
-. Check the BLAST version.
-+
-[source,sh]
-----
-blastn -version
-----
-
 . Extract the aligned sequence of the first exon with `samtools faidx` [http://www.htslib.org/doc/samtools-faidx.html[man page]].
 +
 [source,sh]
@@ -207,10 +184,8 @@ samtools faidx Nipponbare.fasta Chr10:13659508-13660543 > pla1_Nipponbare.fasta
 +
 [source,sh]
 ----
-cat pla1_IR64.txt | awk '$9 < $10 {print $2":"$9"-"$10} $10 < $9 {print $2":"$10"-"$9}' \
- | sort | xargs samtools faidx  IR64.fasta  > pla1_IR64_all_hits.fasta <1>
+cat pla1_IR64.txt | awk '$9 < $10 {print $2":"$9"-"$10} $10 < $9 {print $2":"$10"-"$9}' | sort | xargs samtools faidx  IR64.fasta  > pla1_IR64_all_hits.fasta 
 ----
-<1> The backslash `\` makes it possible to split long lines into two.
 
 . Align the first exon of PLA1 sequence of Nipponbare and IR64 using https://www.ebi.ac.uk/Tools/msa/clustalo/[Clustal Omega].
 +

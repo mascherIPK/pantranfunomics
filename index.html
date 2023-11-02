@@ -734,30 +734,15 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 </div>
 </li>
 <li>
-<p>Install <a href="https://github.com/tpoorten/dotPlotly">dotPlotly</a> from Github and check that it works.</p>
+<p>Copy the PAF file to the Windows desktop and open them.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>git clone https://github.com/tpoorten/dotPlotly.git
-./dotPlotly/pafCoordsDotPlotly.R -h</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>cp Nipponbare_IR64.paf /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/Desktop/</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Create a dotplot from PAF alignment file.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>./dotPlotly/pafCoordsDotPlotly.R -i Nipponbare_IR64_sorted.paf -o Nipponbare_IR64 -m <span class="tok-m">1000</span> -l</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Copy the files to the Windows desktop and open them.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>cp Nipponbare_IR64.png /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/Desktop/
-cp Nipponbare_IR64.htma /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/Desktop/</code></pre>
-</div>
-</div>
+<p>Load the PAF file into the <a href="https://tom-poorten.shinyapps.io/dotplotly_shiny/">Dotplotly</a> app.</p>
 </li>
 </ol>
 </div>
@@ -770,7 +755,7 @@ cp Nipponbare_IR64.htma /mnt/c/Documents<span class="tok-se">\ </span>and<span c
 <p>Create a symbolic link to the FASTA file with the sequence of the PLASTOCHRON1 gene (<a href="https://dx.doi.org/10.1073%2Fpnas.2636936100">PLASTOCHRON1</a>). Take a look at the sequence.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/donwloads/pla1.fasta
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/pla1.fasta
 less pla1.fasta</code></pre>
 </div>
 </div>
@@ -802,17 +787,6 @@ blastn -db IR64.fasta -query pla1.fasta -outfmt <span class="tok-m">6</span> &gt
 </div>
 </li>
 <li>
-<p>Compare the results to BLAST web tool provided on the <a href="https://rootomics.dna.affrc.go.jp/en/research/IR64">ROOTomics website</a>.</p>
-</li>
-<li>
-<p>Check the BLAST version.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>blastn -version</code></pre>
-</div>
-</div>
-</li>
-<li>
 <p>Extract the aligned sequence of the first exon with <code>samtools faidx</code> [<a href="http://www.htslib.org/doc/samtools-faidx.html">man page</a>].</p>
 <div class="listingblock">
 <div class="content">
@@ -825,17 +799,8 @@ samtools faidx Nipponbare.fasta Chr10:13659508-13660543 &gt; pla1_Nipponbare.fas
 <p>Extract the sequence of all BLAST hits.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>cat pla1_IR64.txt <span class="tok-p">|</span> awk <span class="tok-s1">&#39;$9 &lt; $10 {print $2&quot;:&quot;$9&quot;-&quot;$10} $10 &lt; $9 {print $2&quot;:&quot;$10&quot;-&quot;$9}&#39;</span> <span class="tok-se">\</span>
- <span class="tok-p">|</span> sort <span class="tok-p">|</span> xargs samtools faidx  IR64.fasta  &gt; pla1_IR64_all_hits.fasta <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>cat pla1_IR64.txt <span class="tok-p">|</span> awk <span class="tok-s1">&#39;$9 &lt; $10 {print $2&quot;:&quot;$9&quot;-&quot;$10} $10 &lt; $9 {print $2&quot;:&quot;$10&quot;-&quot;$9}&#39;</span> <span class="tok-p">|</span> sort <span class="tok-p">|</span> xargs samtools faidx  IR64.fasta  &gt; pla1_IR64_all_hits.fasta</code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The backslash <code>\</code> makes it possible to split long lines into two.</td>
-</tr>
-</table>
 </div>
 </li>
 <li>
@@ -1113,7 +1078,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-02 13:32:50 +0100
+Last updated 2023-11-02 13:51:40 +0100
 </div>
 </div>
 </body>
