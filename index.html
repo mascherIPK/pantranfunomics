@@ -547,7 +547,8 @@ pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Martin Mascher, IPK Gatersleben, 2020</p>
+<p>Martin Mascher, IPK Gatersleben, November 2023
+<a href="mailto:mascher@ipk-gatersleben.de">mascher@ipk-gatersleben.de</a></p>
 </div>
 <link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css">
 </div>
@@ -636,37 +637,29 @@ You will be prompted to enter your user password.</p>
 </div>
 </li>
 <li>
-<p>Download the IR64 assembly from the <a href="https://rootomics.dna.affrc.go.jp/en/research/IR64">ROOTomics website</a>. It is described in this <a href="https://www.g3journal.org/content/10/5/1495">paper</a>.</p>
+<p>Decompress the tar archive with the course materials.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>wget https://rootomics.dna.affrc.go.jp/genomes/1/dl</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>tar vtf ~/materials.tar.gz
+tar vxf ~/materials.tar.gz</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Take a look at the file, rename, and unzip it.</p>
+<p>Have a look at the IR64 assembly. It is described in this <a href="https://www.g3journal.org/content/10/5/1495">paper</a>. Unzip the file and have a look at it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>less dl
-mv dl IR64.fasta.gz
-gunzip IR64.fasta.gz</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ls IR64.fasta
+less IR64.fasta</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Download the Nipponbare assembly from the Rice Genome Annotation Project website[<a href="http://rice.plantbiology.msu.edu" class="bare">http://rice.plantbiology.msu.edu</a>]. It is described in <a href="https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4">this paper</a>.</p>
+<p>Have a look at the IR64 assembly. It is described in this <a href="https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4">paper</a>. Unzip the file and have a look at it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>wget http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/all.dir/all.chrs.con</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Take a look at the file and rename it.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>less all.chrs.con
-mv all.chrs.con Nipponbare.fasta</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ls Nipponbare.fasta
+less Nipponbare.fasta</code></pre>
 </div>
 </div>
 </li>
@@ -1258,7 +1251,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-02 09:56:27 +0100
+Last updated 2023-11-02 10:08:43 +0100
 </div>
 </div>
 </body>
