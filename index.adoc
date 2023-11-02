@@ -17,6 +17,8 @@ Martin Mascher, IPK Gatersleben, 2020
 
 == Software installation
 
+IMPORTANT: The Virtual Machine has already been set up with all necessary software installed for the course at CIHEAM Zaragoza in November 2023. 
+
 . All the commands were tested on an Ubuntu virtual machine (VM) with standard software configuration (Ubuntu 20.04.1 LTS). The VM has 8 GB of main memory and runs on an Intel(R) Xeon(R) Gold 5218 CPU (2.30GHz, 2 physical cores), and has access to 500 GB of hard disk space. Fewer than 8 GB of RAM would prevent one programs we will use (minimap2) to run properly, but most steps should work with 4 GB or even 2 GB RAM. A total of 70 GB of disk space are needed to store the RNA-seq dataset we will analyze.
 
 . Information on how to setup an Ubuntu VM were given in the 
