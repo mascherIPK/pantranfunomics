@@ -69,8 +69,8 @@ cd ~/international_masters/downloads
 +
 [source,sh]
 ----
-tar vtf ~/materials.tar.gz
-tar vxf ~/materials.tar.gz
+tar vtf ~/materials_Mascher.tar.gz
+tar vxf ~/materials_Mascher.tar.gz
 ----
 
 . Have a look at the IR64 assembly. It is described in this https://www.g3journal.org/content/10/5/1495[paper]. Unzip the file and have a look at it.
@@ -91,7 +91,7 @@ less Nipponbare.fasta
 
 === Chromosome-wise alignment
 
-. Create the project directory and change into it.
+. Create the working directory and change into it.
 +
 [source,sh]
 ----
@@ -99,7 +99,7 @@ mkdir ~/international_masters/rice_assemblies/
 cd ~/international_masters/rice_assemblies/
 ----
 
-. Create symbolic links to the assembly FASTA files in the downloads folder.
+. Create symbolic links to the FASTA files of the assemblies in the downloads folder.
 +
 [source,sh]
 ----
@@ -107,7 +107,7 @@ ln -s ~/international_masters/downloads/IR64.fasta
 ln -s ~/international_masters/downloads/Nipponbare.fasta
 ----
 
-. Create index files recording the chromosome lengths in each assembly.
+. Create index files that record the chromosome lengths in each assembly.
 +
 [source,sh]
 ----
@@ -134,7 +134,7 @@ minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nip
 man minimap2
 ----
 
-. Once the `minimap2` is done, take a look at output.
+. Once the `minimap2` is done, have a look at output.
 +
 [source,sh]
 ----
@@ -161,6 +161,10 @@ git clone https://github.com/tpoorten/dotPlotly.git
 ----
 
 . Copy the files to your main system and open them.
++
+[source,sh]
+----
+----
 
 ////
 scp mascher@vm-101:~/international_masters/rice_assemblies/Nipponbare_IR64.png .
@@ -169,12 +173,11 @@ scp mascher@vm-101:~/international_masters/rice_assemblies/Nipponbare_IR64.html 
 
 === Comparing a single gene in two assemblies
 
-. Download the genomic sequence of https://dx.doi.org/10.1073%2Fpnas.2636936100[PLASTOCHRON1] gene from NCBI accession https://www.ncbi.nlm.nih.gov/nuccore/AB096259[AB096259.1], rename the file `pla1.fasta`  and copy it to the working directory `~/international_masters/rice_assemblies`.
-
-. Take a look at the sequence.
+. Create a symbolic link to the FASTA file with the sequence of the PLASTOCHRON1 gene (https://dx.doi.org/10.1073%2Fpnas.2636936100[PLASTOCHRON1]). Take a look at the sequence.
 +
 [source,sh]
 ----
+ln -s ~/international_masters/donwloads/pla1.fasta 
 less pla1.fasta
 ----
 
@@ -280,96 +283,6 @@ snp-sites -v pla1_gmap_mafft.fasta
 
 == Analysis of RNA-seq of a wheat mutant and its wildtype 
 
-=== Data download
-
-==== RNAseq reads
-
-. We will download RNA-seq for 16 bread wheat samples reported by https://www.pnas.org/content/116/11/5182[Sakuma et al. 2019.]
-
-. In a web browser, go to https://www.ebi.ac.uk/ena/browser/view/PRJEB25119. 
-
-. Click on "Show Column Selection".
-
-. Enable "submitted_md5" and "submitted_ftp"
-
-. Right-click on the "TSV" link next to "Download report"  and select "Copy link" to copy the download URL to the clipboard.
-
-. Go to the UNIX terminal and run the following commands. 
-+
-[source,sh]
-----
-cd ~/international_masters/downloads
-wget -O file_list.tsv 'https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJEB25119&result=read_run&fields=study_accession,sample_accession,experiment_accession,run_accession,tax_id,scientific_name,fastq_ftp,submitted_md5,submitted_ftp,sra_ftp&format=tsv&download=true' #<1>
-----
-<1> The long URL is one you copied to clipboard. You can paste it with Ctrl+Shift+V. The download file will be named `file_list.tsv`. 
-
-. View the columns the file.
-+
-[source,sh]
-----
-column -t file_list.tsv | less -S
-head file_list.tsv -n 1 | tr '\t' '\n' | nl
-----
-
-. Extract the FTP links from the TSV file.
-+
-[source,sh]
-----
-tail -n +2 file_list.tsv  | cut -f 9 | tr ';' '\n' > ftp_links.txt
-----
-
-. Download all the files using `wget`. 
-+
-[source,sh]
-----
-cat ftp_links.txt | while read i; do basename $i | sed 's/.fastq.gz//' | read b; wget -nv $i > $b.out > $b.err; done
-cat ftp_links.txt | while read i; do b=$(basename $i | sed 's/.fastq.gz//'); wget -nv $i > $b.out > $b.err; done
-----
-
-////
-ln -s /data/pre_downloaded/*fastq.gz .
-////
-
-. Generate MD5 sums for the download files.
-+
-[source,sh]
-----
-md5sum GA*gz WA*gz > md5sum.txt
-----
-
-////
-cp /data/pre_downloaded/md5sum.txt  .
-////
-
-. Compare the MD5 check sums reported in the TSV file downloaded from ENA to the ones you have just calcuated.
-+
-[source,sh]
-----
-cat file_list.tsv | cut -f 8 | tr ';' '\n'  | tail -n +2 | sort | md5sum
-#f0e418bc72ca6433012e0182e54348a4  - #<1>
-
-cat md5sum.txt  | cut -d ' ' -f 1 | sort | md5sum
-#f0e418bc72ca6433012e0182e54348a4  - #<1>
-----
-<1> The two need to match. Otherwise, there was an error during the transfer and some files have to be downloaded again.
-
-==== Wheat annotation
-
-. Download the coding sequences of the genes annotated on the wheat reference genones from https://wheat-urgi.versailles.inra.fr/Seq-Repository/Annotations[URGI].
-+
-[source,sh]
-----
-cd international_masters/downloads
-wget 'https://urgi.versailles.inra.fr/download/iwgsc/IWGSC_RefSeq_Annotations/v1.0/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip'
-----
-
-. Download the functional annotation of the gene models.
-+
-[source,sh]
-----
-wget 'https://urgi.versailles.inra.fr/download/iwgsc/IWGSC_RefSeq_Annotations/v1.0/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip' 
-----
-
 === Creating a kallisto index
 
 . Create the project directory and change to it.
@@ -386,9 +299,6 @@ cd ~/international_masters/wheat_rnaseq
 ----
 ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip .
 ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip .
-
-unzip iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
-unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip
 ----
 
 . Count the number of sequences in the file. 
@@ -491,4 +401,4 @@ scp mascher@vm-101:~/international_masters/wheat_rnaseq/*kallisto .
 
 == Cereal pan-genomes at grain genes
 
-. Cereal pan-genomes are hosted at https://wheat.pw.usda.gov/GG3/[GrainGenes].
+. Cereal pangenomes are hosted at https://wheat.pw.usda.gov/GG3/[GrainGenes].

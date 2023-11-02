@@ -532,9 +532,8 @@ pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
 <li><a href="#_genebank_genomics_portal">3. Genebank genomics portal</a></li>
 <li><a href="#_analysis_of_rna_seq_of_a_wheat_mutant_and_its_wildtype">4. Analysis of RNA-seq of a wheat mutant and its wildtype</a>
 <ul class="sectlevel2">
-<li><a href="#_data_download">4.1. Data download</a></li>
-<li><a href="#_creating_a_kallisto_index">4.2. Creating a kallisto index</a></li>
-<li><a href="#_quantifying_transcript_abundance">4.3. Quantifying transcript abundance</a></li>
+<li><a href="#_creating_a_kallisto_index">4.1. Creating a kallisto index</a></li>
+<li><a href="#_quantifying_transcript_abundance">4.2. Quantifying transcript abundance</a></li>
 </ul>
 </li>
 <li><a href="#_transcriptome_atlases">5. Transcriptome atlases</a></li>
@@ -640,8 +639,8 @@ You will be prompted to enter your user password.</p>
 <p>Decompress the tar archive with the course materials.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>tar vtf ~/materials.tar.gz
-tar vxf ~/materials.tar.gz</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>tar vtf ~/materials_Mascher.tar.gz
+tar vxf ~/materials_Mascher.tar.gz</code></pre>
 </div>
 </div>
 </li>
@@ -671,7 +670,7 @@ less Nipponbare.fasta</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create the project directory and change into it.</p>
+<p>Create the working directory and change into it.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir ~/international_masters/rice_assemblies/
@@ -680,7 +679,7 @@ less Nipponbare.fasta</code></pre>
 </div>
 </li>
 <li>
-<p>Create symbolic links to the assembly FASTA files in the downloads folder.</p>
+<p>Create symbolic links to the FASTA files of the assemblies in the downloads folder.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/downloads/IR64.fasta
@@ -689,7 +688,7 @@ ln -s ~/international_masters/downloads/Nipponbare.fasta</code></pre>
 </div>
 </li>
 <li>
-<p>Create index files recording the chromosome lengths in each assembly.</p>
+<p>Create index files that record the chromosome lengths in each assembly.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>samtools faidx IR64.fasta
@@ -733,7 +732,7 @@ samtools faidx Nipponbare.fasta</code></pre>
 </div>
 </li>
 <li>
-<p>Once the <code>minimap2</code> is done, take a look at output.</p>
+<p>Once the <code>minimap2</code> is done, have a look at output.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>cat Nipponbare_IR64.paf
@@ -763,6 +762,11 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 </li>
 <li>
 <p>Copy the files to your main system and open them.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"></code></pre>
+</div>
+</div>
 </li>
 </ol>
 </div>
@@ -772,13 +776,11 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Download the genomic sequence of <a href="https://dx.doi.org/10.1073%2Fpnas.2636936100">PLASTOCHRON1</a> gene from NCBI accession <a href="https://www.ncbi.nlm.nih.gov/nuccore/AB096259">AB096259.1</a>, rename the file <code>pla1.fasta</code>  and copy it to the working directory <code>~/international_masters/rice_assemblies</code>.</p>
-</li>
-<li>
-<p>Take a look at the sequence.</p>
+<p>Create a symbolic link to the FASTA file with the sequence of the PLASTOCHRON1 gene (<a href="https://dx.doi.org/10.1073%2Fpnas.2636936100">PLASTOCHRON1</a>). Take a look at the sequence.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>less pla1.fasta</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/donwloads/pla1.fasta
+less pla1.fasta</code></pre>
 </div>
 </div>
 </li>
@@ -935,135 +937,7 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 <h2 id="_analysis_of_rna_seq_of_a_wheat_mutant_and_its_wildtype">4. Analysis of RNA-seq of a wheat mutant and its wildtype</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_data_download">4.1. Data download</h3>
-<div class="sect3">
-<h4 id="_rnaseq_reads">4.1.1. RNAseq reads</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>We will download RNA-seq for 16 bread wheat samples reported by <a href="https://www.pnas.org/content/116/11/5182">Sakuma et al. 2019.</a></p>
-</li>
-<li>
-<p>In a web browser, go to <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB25119" class="bare">https://www.ebi.ac.uk/ena/browser/view/PRJEB25119</a>.</p>
-</li>
-<li>
-<p>Click on "Show Column Selection".</p>
-</li>
-<li>
-<p>Enable "submitted_md5" and "submitted_ftp"</p>
-</li>
-<li>
-<p>Right-click on the "TSV" link next to "Download report"  and select "Copy link" to copy the download URL to the clipboard.</p>
-</li>
-<li>
-<p>Go to the UNIX terminal and run the following commands.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> ~/international_masters/downloads
-wget -O file_list.tsv <span class="tok-s1">&#39;https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJEB25119&amp;result=read_run&amp;fields=study_accession,sample_accession,experiment_accession,run_accession,tax_id,scientific_name,fastq_ftp,submitted_md5,submitted_ftp,sra_ftp&amp;format=tsv&amp;download=true&#39;</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The long URL is one you copied to clipboard. You can paste it with Ctrl+Shift+V. The download file will be named <code>file_list.tsv</code>.</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>View the columns the file.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>column -t file_list.tsv <span class="tok-p">|</span> less -S
-head file_list.tsv -n <span class="tok-m">1</span> <span class="tok-p">|</span> tr <span class="tok-s1">&#39;\t&#39;</span> <span class="tok-s1">&#39;\n&#39;</span> <span class="tok-p">|</span> nl</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Extract the FTP links from the TSV file.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>tail -n +2 file_list.tsv  <span class="tok-p">|</span> cut -f <span class="tok-m">9</span> <span class="tok-p">|</span> tr <span class="tok-s1">&#39;;&#39;</span> <span class="tok-s1">&#39;\n&#39;</span> &gt; ftp_links.txt</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Download all the files using <code>wget</code>.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>cat ftp_links.txt <span class="tok-p">|</span> <span class="tok-k">while</span> <span class="tok-nb">read</span> i<span class="tok-p">;</span> <span class="tok-k">do</span> basename <span class="tok-nv">$i</span> <span class="tok-p">|</span> sed <span class="tok-s1">&#39;s/.fastq.gz//&#39;</span> <span class="tok-p">|</span> <span class="tok-nb">read</span> b<span class="tok-p">;</span> wget -nv <span class="tok-nv">$i</span> &gt; <span class="tok-nv">$b</span>.out &gt; <span class="tok-nv">$b</span>.err<span class="tok-p">;</span> <span class="tok-k">done</span>
-cat ftp_links.txt <span class="tok-p">|</span> <span class="tok-k">while</span> <span class="tok-nb">read</span> i<span class="tok-p">;</span> <span class="tok-k">do</span> <span class="tok-nv">b</span><span class="tok-o">=</span><span class="tok-k">$(</span>basename <span class="tok-nv">$i</span> <span class="tok-p">|</span> sed <span class="tok-s1">&#39;s/.fastq.gz//&#39;</span><span class="tok-k">)</span><span class="tok-p">;</span> wget -nv <span class="tok-nv">$i</span> &gt; <span class="tok-nv">$b</span>.out &gt; <span class="tok-nv">$b</span>.err<span class="tok-p">;</span> <span class="tok-k">done</span></code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Generate MD5 sums for the download files.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>md5sum GA*gz WA*gz &gt; md5sum.txt</code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Compare the MD5 check sums reported in the TSV file downloaded from ENA to the ones you have just calcuated.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>cat file_list.tsv <span class="tok-p">|</span> cut -f <span class="tok-m">8</span> <span class="tok-p">|</span> tr <span class="tok-s1">&#39;;&#39;</span> <span class="tok-s1">&#39;\n&#39;</span>  <span class="tok-p">|</span> tail -n +2 <span class="tok-p">|</span> sort <span class="tok-p">|</span> md5sum
-<span class="tok-c1">#f0e418bc72ca6433012e0182e54348a4  - </span><i class="conum" data-value="1"></i><b>(1)</b>
-
-cat md5sum.txt  <span class="tok-p">|</span> cut -d <span class="tok-s1">&#39; &#39;</span> -f <span class="tok-m">1</span> <span class="tok-p">|</span> sort <span class="tok-p">|</span> md5sum
-<span class="tok-c1">#f0e418bc72ca6433012e0182e54348a4  - </span><i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The two need to match. Otherwise, there was an error during the transfer and some files have to be downloaded again.</td>
-</tr>
-</table>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_wheat_annotation">4.1.2. Wheat annotation</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Download the coding sequences of the genes annotated on the wheat reference genones from <a href="https://wheat-urgi.versailles.inra.fr/Seq-Repository/Annotations">URGI</a>.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> international_masters/downloads
-wget <span class="tok-s1">&#39;https://urgi.versailles.inra.fr/download/iwgsc/IWGSC_RefSeq_Annotations/v1.0/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip&#39;</span></code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Download the functional annotation of the gene models.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>wget <span class="tok-s1">&#39;https://urgi.versailles.inra.fr/download/iwgsc/IWGSC_RefSeq_Annotations/v1.0/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip&#39;</span></code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_creating_a_kallisto_index">4.2. Creating a kallisto index</h3>
+<h3 id="_creating_a_kallisto_index">4.1. Creating a kallisto index</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1080,10 +954,7 @@ wget <span class="tok-s1">&#39;https://urgi.versailles.inra.fr/download/iwgsc/IW
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip .
-ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip .
-
-unzip iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
-unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
+ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip .</code></pre>
 </div>
 </div>
 </li>
@@ -1107,7 +978,7 @@ unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quantifying_transcript_abundance">4.3. Quantifying transcript abundance</h3>
+<h3 id="_quantifying_transcript_abundance">4.2. Quantifying transcript abundance</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1242,7 +1113,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Cereal pan-genomes are hosted at <a href="https://wheat.pw.usda.gov/GG3/">GrainGenes</a>.</p>
+<p>Cereal pangenomes are hosted at <a href="https://wheat.pw.usda.gov/GG3/">GrainGenes</a>.</p>
 </li>
 </ol>
 </div>
@@ -1251,7 +1122,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-02 10:08:43 +0100
+Last updated 2023-11-02 10:33:26 +0100
 </div>
 </div>
 </body>
