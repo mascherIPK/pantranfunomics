@@ -9,7 +9,8 @@
 
 = Practical course in pan-genomics, transcriptomics and functional genomics
 
-Martin Mascher, IPK Gatersleben, 2020
+Martin Mascher, IPK Gatersleben, November 2023
+mascher@ipk-gatersleben.de
 
 ++++
 <link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css">
@@ -64,35 +65,28 @@ mkdir -p ~/international_masters/downloads
 cd ~/international_masters/downloads
 ----
 
-. Download the IR64 assembly from the https://rootomics.dna.affrc.go.jp/en/research/IR64[ROOTomics website]. It is described in this https://www.g3journal.org/content/10/5/1495[paper].
+. Decompress the tar archive with the course materials.
 +
 [source,sh]
 ----
-wget https://rootomics.dna.affrc.go.jp/genomes/1/dl
+tar vtf ~/materials.tar.gz
+tar vxf ~/materials.tar.gz
 ----
 
-. Take a look at the file, rename, and unzip it.
+. Have a look at the IR64 assembly. It is described in this https://www.g3journal.org/content/10/5/1495[paper]. Unzip the file and have a look at it.
 +
 [source,sh]
 ----
-less dl
-mv dl IR64.fasta.gz
-gunzip IR64.fasta.gz
+ls IR64.fasta
+less IR64.fasta
 ----
 
-. Download the Nipponbare assembly from the Rice Genome Annotation Project website[http://rice.plantbiology.msu.edu]. It is described in https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4[this paper].
+. Have a look at the IR64 assembly. It is described in this https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4[paper]. Unzip the file and have a look at it.
 +
 [source,sh]
 ----
-wget http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/all.dir/all.chrs.con
-----
-
-. Take a look at the file and rename it.
-+
-[source,sh]
-----
-less all.chrs.con
-mv all.chrs.con Nipponbare.fasta 
+ls Nipponbare.fasta
+less Nipponbare.fasta
 ----
 
 === Chromosome-wise alignment
