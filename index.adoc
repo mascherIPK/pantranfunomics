@@ -1,0 +1,498 @@
+:language: r
+:source-highlighter: pygments
+:pygments-linenums-mode: table
+:toc2:
+:numbered:
+:experimental:
+:data-uri:
+:icons: font
+
+= Practical course in pan-genomics, transcriptomics and functional genomics
+
+Martin Mascher, IPK Gatersleben, 2020
+
+++++
+<link rel="stylesheet"  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css">
+++++
+
+== Software installation
+
+. All the commands were tested on an Ubuntu virtual machine (VM) with standard software configuration (Ubuntu 20.04.1 LTS). The VM has 8 GB of main memory and runs on an Intel(R) Xeon(R) Gold 5218 CPU (2.30GHz, 2 physical cores), and has access to 500 GB of hard disk space. Fewer than 8 GB of RAM would prevent one programs we will use (minimap2) to run properly, but most steps should work with 4 GB or even 2 GB RAM. A total of 70 GB of disk space are needed to store the RNA-seq dataset we will analyze.
+
+. Information on how to setup an Ubuntu VM were given in the 
+https://github.com/eead-csic-compbio/scripting_linux_shell[course] of Bruno Contreras and Carlos Cantalapiedra. See their https://github.com/eead-csic-compbio/scripting_linux_shell/blob/master/session0.md[session 0].
+
+. Install the required tools with the http://manpages.ubuntu.com/manpages/bionic/man8/apt.8.html[apt] package manager.
+You will be prompted to enter your user password.
++
+[source,sh]
+----
+sudo apt install samtools kallisto minimap2 python git r-base ncbi-blast+ libssl-dev curl libcurl4-openssl-dev pandoc emboss mafft snp-sites gmap
+----
+
+.. http://samtools.github.io[samtools], https://github.com/lh3/minimap2[minimap2], https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download[ncbi-blast+], http://emboss.sourceforge.net[emboss], https://mafft.cbrc.jp/alignment/software/[mafft], http://sanger-pathogens.github.io/snp-sites/[snp-sites], http://research-pub.gene.com/gmap/[gmap] and http://cole-trapnell-lab.github.io/cufflinks/[cufflinks] will be used in the analysis of two rice genomes.
+
+.. https://pachterlab.github.io/kallisto/[kallisto] will be used to analyse RNAseq data of wheat.
+
+.. https://en.wikipedia.org/wiki/Python_(programming_language)[python], https://en.wikipedia.org/wiki/Git[git], https://packages.ubuntu.com/xenial/libcurl4-openssl-dev[libcurl4-openssl-dev], https://curl.se[curl], https://packages.debian.org/jessie/libssl-dev[libssl-dev], and https://pandoc.org[pandoc] are dependencies of dotPlotly, a program to show alignments of two genome assemblies.
+
+.. r-base is the Ubuntu package of the https://www.r-project.org[R statistical environment].
+
+. Now install the required R packages. These are also dependencies of https://github.com/tpoorten/dotPlotly[dotPlotly].
+
+. Start R by running `R` on the command line. You will be prompted to enter your password.
++
+[source,r]
+----
+sudo R
+install.packages('optparse')
+install.packages('ggplot2')
+install.packages('plotly')
+----
+
+== Comparing two rice genome assemblies
+
+=== Downloading the assemblies
+
+. Create a folder for downloads and change to it.
++
+[source,sh]
+----
+mkdir -p ~/international_masters/downloads
+cd ~/international_masters/downloads
+----
+
+. Download the IR64 assembly from the https://rootomics.dna.affrc.go.jp/en/research/IR64[ROOTomics website]. It is described in this https://www.g3journal.org/content/10/5/1495[paper].
++
+[source,sh]
+----
+wget https://rootomics.dna.affrc.go.jp/genomes/1/dl
+----
+
+. Take a look at the file, rename, and unzip it.
++
+[source,sh]
+----
+less dl
+mv dl IR64.fasta.gz
+gunzip IR64.fasta.gz
+----
+
+. Download the Nipponbare assembly from the Rice Genome Annotation Project website[http://rice.plantbiology.msu.edu]. It is described in https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4[this paper].
++
+[source,sh]
+----
+wget http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/all.dir/all.chrs.con
+----
+
+. Take a look at the file and rename it.
++
+[source,sh]
+----
+less all.chrs.con
+mv all.chrs.con Nipponbare.fasta 
+----
+
+=== Chromosome-wise alignment
+
+. Create the project directory and change into it.
++
+[source,sh]
+----
+mkdir ~/international_masters/rice_assemblies/
+cd ~/international_masters/rice_assemblies/
+----
+
+. Create symbolic links to the assembly FASTA files in the downloads folder.
++
+[source,sh]
+----
+ln -s ~/international_masters/downloads/IR64.fasta
+ln -s ~/international_masters/downloads/Nipponbare.fasta
+----
+
+. Create index files recording the chromosome lengths in each assembly.
++
+[source,sh]
+----
+samtools faidx IR64.fasta
+samtools faidx Nipponbare.fasta
+----
+
+. Align the two assemblies with https://github.com/lh3/minimap2[minimap2].
++
+[source,sh]
+----
+minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nipponbare_IR64.paf.err  #<1><2><3>
+----
+<1> The parameter preset `-x asm5` is suited to align assemblies from the same species. 
+<2> The value of `-I` is reduced from the default (4G) to run our small VM.
+<3> `>` and `2>` are used to direct the standard output (stdout) and standard error (stderr).
+
+. Send the `minimap2` process to the background with Ctrl-Z. Resume it with `bg`. Check with `top` that it's running.
+
+. In the meantime, take a look the definition of the PAF format at the end of the minimap2 manpage.
++
+[source,sh]
+----
+man minimap2
+----
+
+. Once the `minimap2` is done, take a look at output.
++
+[source,sh]
+----
+cat Nipponbare_IR64.paf
+head Nipponbare_IR64.paf
+less Nipponbare_IR64.paf
+less -S Nipponbare_IR64.paf
+column -t Nipponbare_IR64.paf | less -S
+----
+
+. Install https://github.com/tpoorten/dotPlotly[dotPlotly] from Github and check that it works.
++
+[source,sh]
+----
+git clone https://github.com/tpoorten/dotPlotly.git
+./dotPlotly/pafCoordsDotPlotly.R -h
+----
+
+. Create a dotplot from PAF alignment file.
++
+[source,sh]
+----
+./dotPlotly/pafCoordsDotPlotly.R -i Nipponbare_IR64_sorted.paf -o Nipponbare_IR64 -m 1000 -l 
+----
+
+. Copy the files to your main system and open them.
+
+////
+scp mascher@vm-101:~/international_masters/rice_assemblies/Nipponbare_IR64.png .
+scp mascher@vm-101:~/international_masters/rice_assemblies/Nipponbare_IR64.html .
+////
+
+=== Comparing a single gene in two assemblies
+
+. Download the genomic sequence of https://dx.doi.org/10.1073%2Fpnas.2636936100[PLASTOCHRON1] gene from NCBI accession https://www.ncbi.nlm.nih.gov/nuccore/AB096259[AB096259.1], rename the file `pla1.fasta`  and copy it to the working directory `~/international_masters/rice_assemblies`.
+
+. Take a look at the sequence.
++
+[source,sh]
+----
+less pla1.fasta
+----
+
+. Create BLAST database for the two genome assemblies.
++
+[source,sh]
+----
+makeblastdb -dbtype nucl -in Nipponbare.fasta
+makeblastdb -dbtype nucl -in IR64.fasta
+----
+
+. Run the BLAST alignment and output to http://www.metagenomics.wiki/tools/blast/blastn-output-format-6[tabular format].
++
+[source,sh]
+----
+blastn -db Nipponbare.fasta -query pla1.fasta -outfmt 6 > pla1_Nipponbare.txt #<1>
+blastn -db IR64.fasta -query pla1.fasta -outfmt 6 > pla1_IR64.txt
+----
+<1> `-outfmt 6` means http://www.metagenomics.wiki/tools/blast/blastn-output-format-6[tabular] output.
+
+. Compare the results to BLAST web tool provided on the https://rootomics.dna.affrc.go.jp/en/research/IR64[ROOTomics website].
+
+. Check the BLAST version.
++
+[source,sh]
+----
+blastn -version
+----
+
+. Extract the aligned sequence of the first exon with `samtools faidx` [http://www.htslib.org/doc/samtools-faidx.html[man page]].
++
+[source,sh]
+----
+samtools faidx IR64.fasta chr10:10413299-10414334 > pla1_IR64.fasta
+samtools faidx Nipponbare.fasta Chr10:13659508-13660543 > pla1_Nipponbare.fasta
+----
+
+. Extract the sequence of all BLAST hits.
++
+[source,sh]
+----
+cat pla1_IR64.txt | awk '$9 < $10 {print $2":"$9"-"$10} $10 < $9 {print $2":"$10"-"$9}' \
+ | sort | xargs samtools faidx  IR64.fasta  > pla1_IR64_all_hits.fasta <1>
+----
+<1> The backslash `\` makes it possible to split long lines into two.
+
+. Align the first exon of PLA1 sequence of Nipponbare and IR64 using https://www.ebi.ac.uk/Tools/msa/clustalo/[Clustal Omega].
++
+////
+scp mascher@vm-101:~/international_masters/rice_assemblies/pla1_Nipponbare.fasta .
+scp mascher@vm-101:~/international_masters/rice_assemblies/pla1_IR64.fasta .
+////
++
+. Align the two sequence using MAFFT and find SNPs between them with SNP-sites:
++
+[source,sh]
+----
+cat pla1_IR64.fasta pla1_Nipponbare.fasta | mafft - > pla1_mafft.fasta
+snp-sites -v pla1_mafft.fasta
+snp-sites pla1_mafft.fasta
+----
+
+. Now we use https://academic.oup.com/bioinformatics/article/21/9/1859/409207[GMAP] for spliced alignment 
+to extract and compare alignments of of the full transcript, not only the first exon.
+
+. Build the GMAP indices for both genomes.
++
+[source,sh]
+----
+gmap_build Nipponbare.fasta -D . -d Nipponbare_db > Nipponbare_build.out 2> Nipponbare_build.err & #<1>
+gmap_build IR64.fasta -D . -d IR64_db > IR64_build.out 2> IR64_build.err &
+----
+<1> The `&` at the end of the line sends the process immediately to the background.
+
+. Align the PLA1 sequence to both genomes.
++
+[source,sh]
+----
+gmap -f 2 -D . -d Nipponbare_db pla1.fasta > pla1_Nipponbare_gmap.gff #<1>
+gmap -f 2 -D . -d IR64_db pla1.fasta > pla1_IR64_gmap.gff
+----
+<1> `-f 2` generate GFF output. A description of the GFF format can be found https://www.ensembl.org/info/website/upload/gff.html[here].
+
+. Extract the matched sequence with https://github.com/gpertea/gffread[gffread] (part of http://cole-trapnell-lab.github.io/cufflinks/[Cufflinks]).
++
+[source,sh]
+----
+cat pla1_Nipponbare_gmap.gff | gffread -g Nipponbare.fasta -w pla1_Nipponbare_gmap_mRNA.fasta
+cat pla1_IR64_gmap.gff | gffread -g IR64.fasta -w pla1_IR64_gmap_mRNA.fasta
+----
+
+. Run the multiple sequence aligment and SNP extraction with the full transcript sequences.
++
+[source,sh]
+----
+cat pla1_Nipponbare_gmap_mRNA.fasta pla1_IR64_gmap_mRNA.fasta | mafft - > pla1_gmap_mafft.fasta
+snp-sites -v pla1_gmap_mafft.fasta
+----
+
+== Genebank genomics portal
+
+. Visit https://bridge.ipk-gatersleben.de/#geomap[BRIDGE], the barley genebank genomics portal.
+
+== Analysis of RNA-seq of a wheat mutant and its wildtype 
+
+=== Data download
+
+==== RNAseq reads
+
+. We will download RNA-seq for 16 bread wheat samples reported by https://www.pnas.org/content/116/11/5182[Sakuma et al. 2019.]
+
+. In a web browser, go to https://www.ebi.ac.uk/ena/browser/view/PRJEB25119. 
+
+. Click on "Show Column Selection".
+
+. Enable "submitted_md5" and "submitted_ftp"
+
+. Right-click on the "TSV" link next to "Download report"  and select "Copy link" to copy the download URL to the clipboard.
+
+. Go to the UNIX terminal and run the following commands. 
++
+[source,sh]
+----
+cd ~/international_masters/downloads
+wget -O file_list.tsv 'https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJEB25119&result=read_run&fields=study_accession,sample_accession,experiment_accession,run_accession,tax_id,scientific_name,fastq_ftp,submitted_md5,submitted_ftp,sra_ftp&format=tsv&download=true' #<1>
+----
+<1> The long URL is one you copied to clipboard. You can paste it with Ctrl+Shift+V. The download file will be named `file_list.tsv`. 
+
+. View the columns the file.
++
+[source,sh]
+----
+column -t file_list.tsv | less -S
+head file_list.tsv -n 1 | tr '\t' '\n' | nl
+----
+
+. Extract the FTP links from the TSV file.
++
+[source,sh]
+----
+tail -n +2 file_list.tsv  | cut -f 9 | tr ';' '\n' > ftp_links.txt
+----
+
+. Download all the files using `wget`. 
++
+[source,sh]
+----
+cat ftp_links.txt | while read i; do basename $i | sed 's/.fastq.gz//' | read b; wget -nv $i > $b.out > $b.err; done
+cat ftp_links.txt | while read i; do b=$(basename $i | sed 's/.fastq.gz//'); wget -nv $i > $b.out > $b.err; done
+----
+
+////
+ln -s /data/pre_downloaded/*fastq.gz .
+////
+
+. Generate MD5 sums for the download files.
++
+[source,sh]
+----
+md5sum GA*gz WA*gz > md5sum.txt
+----
+
+////
+cp /data/pre_downloaded/md5sum.txt  .
+////
+
+. Compare the MD5 check sums reported in the TSV file downloaded from ENA to the ones you have just calcuated.
++
+[source,sh]
+----
+cat file_list.tsv | cut -f 8 | tr ';' '\n'  | tail -n +2 | sort | md5sum
+#f0e418bc72ca6433012e0182e54348a4  - #<1>
+
+cat md5sum.txt  | cut -d ' ' -f 1 | sort | md5sum
+#f0e418bc72ca6433012e0182e54348a4  - #<1>
+----
+<1> The two need to match. Otherwise, there was an error during the transfer and some files have to be downloaded again.
+
+==== Wheat annotation
+
+. Download the coding sequences of the genes annotated on the wheat reference genones from https://wheat-urgi.versailles.inra.fr/Seq-Repository/Annotations[URGI].
++
+[source,sh]
+----
+cd international_masters/downloads
+wget 'https://urgi.versailles.inra.fr/download/iwgsc/IWGSC_RefSeq_Annotations/v1.0/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip'
+----
+
+. Download the functional annotation of the gene models.
++
+[source,sh]
+----
+wget 'https://urgi.versailles.inra.fr/download/iwgsc/IWGSC_RefSeq_Annotations/v1.0/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip' 
+----
+
+=== Creating a kallisto index
+
+. Create the project directory and change to it.
++
+[source,sh]
+----
+mkdir ~/international_masters/wheat_rnaseq
+cd ~/international_masters/wheat_rnaseq
+----
+
+. Create symbolic links to the annotation files and decompress them.
++
+[source,sh]
+----
+ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip .
+ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip .
+
+unzip iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
+unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip
+----
+
+. Count the number of sequences in the file. 
++
+[source,sh]
+----
+grep -c '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa
+----
+
+. Create an index for alignment with https://pachterlab.github.io/kallisto/[kallisto].
++
+[source,sh]
+----
+kallisto index --index wheat_index iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa > kallisto_index.out 2>  kallisto_index.err & 
+----
+
+=== Quantifying transcript abundance
+
+. Create symbolic links to read files.
++
+[source,sh]
+----
+ln -s ~/international_masters/downloads/GA*gz .
+ln -s ~/international_masters/downloads/WA*gz .
+----
+
+. Run the quantification for a single sample.
++
+[source,sh]
+----
+kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz \
+ --output GA_0908-N_1_kallisto > GA_0908-N_1_kallisto.out 2> GA_0908-N_1_kallisto.err & 
+----
+
+. Run the quantification for all samples using a loop.
++
+[source,sh]
+----
+ find | grep R1 | cut -d _ -f -3 | sort | while read i; do
+  kallisto quant --index wheat_index  ${i}_R1.fastq.gz ${i}_R2.fastq.gz --output ${i}_kallisto > ${i}_kallisto.out 2>  ${i}_kallisto.err 
+ done
+----
+////
+rm -rf *kallisto
+ln -s /data/pre_analysis/kallisto/* .
+////
+
+. Check that there are results for samples.
++
+[source,sh]
+----
+head GA_0908-N_1_kallisto/abundance.tsv | column -t 
+find -L | grep abundance.tsv | wc  -l 
+find -L | grep abundance.tsv | xargs wc -l
+grep -c '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa
+----
+
+. Further analyses will be run https://github.com/wyguo/ThreeDRNAseq[3D RNA-seq] (https://www.biorxiv.org/content/10.1101/656686v1[paper]).
+
+. Create tables with the metadata.
++
+[source,sh]
+----
+grep '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa | tr -d '>' | cut -d ' ' -f 1 > transcripts.txt 
+cut -d . -f 1 transcripts.txt > genes.txt 
+paste -d , transcripts.txt genes.txt  > transcript_genes.csv #<1>
+
+find -L -type d | grep kallisto  | cut -d / -f 2 | sort > kallisto.txt #<2>
+
+cat kallisto.txt  | tr _- '\t' | awk '{print $1","$3","$4}' \
+ | paste -d , - kallisto.txt | awk 'BEGIN{print "stage,allele,rep,folder"} {print}' > sample_info.csv #<3>
+----
+<1> Assignment of transcript isoforms to genes.
+<2> List of Kallisto output directories.
+<3> Table with experimental design.
+////
+scp mascher@vm-101:~/international_masters/wheat_rnaseq/sample_info.csv .
+scp mascher@vm-101:~/international_masters/wheat_rnaseq/transcript_genes.txt .
+////
+
+. Copy the Kallisto output folders for all samples to your local machine (Mac/Windows) and create a ZIP archive containing all output folders.
+
+////
+scp mascher@vm-101:~/international_masters/wheat_rnaseq/*kallisto .
+////
+
+. Open the https://3drnaseq.hutton.ac.uk/app_direct/3DRNAseq/[3D RNA-seq app].
+
+. Upload the datasets in the *Data generation* tab.
+
+. Follow the 3D DNA-seq steps. Click on the question mark symbol to get more guidance.
+
+== Transcriptome atlases
+
+. Visit http://bar.utoronto.ca[BAR], the Bio-Analytic Resource for Plant Biology (https://link.springer.com/protocol/10.1007%2F978-1-4939-6658-5_6[paper]).
+
+== Barley epigenome browser
+
+. Visit the https://ics.hutton.ac.uk/barley-epigenome/[Barley epigenome browser].
+
+== Cereal pan-genomes at grain genes
+
+. Cereal pan-genomes are hosted at https://wheat.pw.usda.gov/GG3/[GrainGenes].
