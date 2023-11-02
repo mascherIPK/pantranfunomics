@@ -627,20 +627,10 @@ You will be prompted to enter your user password.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a folder for downloads and change to it.</p>
+<p>Enter the downloads folder in your home directory.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir -p ~/international_masters/downloads
-<span class="tok-nb">cd</span> ~/international_masters/downloads</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Decompress the tar archive with the course materials.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>tar vtf ~/materials_Mascher.tar.gz
-tar vxf ~/materials_Mascher.tar.gz</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> ~/downloads</code></pre>
 </div>
 </div>
 </li>
@@ -673,7 +663,7 @@ less Nipponbare.fasta</code></pre>
 <p>Create the working directory and change into it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir ~/international_masters/rice_assemblies/
+<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir -p ~/international_masters/rice_assemblies/
 <span class="tok-nb">cd</span> ~/international_masters/rice_assemblies/</code></pre>
 </div>
 </div>
@@ -1122,7 +1112,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-02 10:39:18 +0100
+Last updated 2023-11-02 13:00:11 +0100
 </div>
 </div>
 </body>

@@ -57,20 +57,11 @@ install.packages('plotly')
 
 === Downloading the assemblies
 
-. Create a folder for downloads and change to it.
+. Enter the downloads folder in your home directory.
 +
 [source,sh]
 ----
-mkdir -p ~/international_masters/downloads
-cd ~/international_masters/downloads
-----
-
-. Decompress the tar archive with the course materials.
-+
-[source,sh]
-----
-tar vtf ~/materials_Mascher.tar.gz
-tar vxf ~/materials_Mascher.tar.gz
+cd ~/downloads
 ----
 
 . Have a look at the IR64 assembly. It is described in this https://www.g3journal.org/content/10/5/1495[paper]. Unzip the file and have a look at it.
@@ -95,7 +86,7 @@ less Nipponbare.fasta
 +
 [source,sh]
 ----
-mkdir ~/international_masters/rice_assemblies/
+mkdir -p ~/international_masters/rice_assemblies/
 cd ~/international_masters/rice_assemblies/
 ----
 
