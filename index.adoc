@@ -337,16 +337,21 @@ cat kallisto.txt  | tr _- '\t' | awk '{print $1","$3","$4}' | paste -d , - kalli
 <1> Assignment of transcript isoforms to genes.
 <2> List of Kallisto output directories.
 <3> Table with experimental design.
-////
-scp mascher@vm-101:~/international_masters/wheat_rnaseq/sample_info.csv .
-scp mascher@vm-101:~/international_masters/wheat_rnaseq/transcript_genes.txt .
-////
 
 . Create a zip archiv containing the kallisto output folders.
 +
 [source,sh]
 ----
-zip -r kallisto.zip *_kallisto
+zip -r kallisto.zip *_kallisto #<1>
+----
+<1> `-r` instruct `zip` to travel the directory structure recursively, that is, to include all files in the folders.
+
+. Create a new folders on your Windows desktop and copy the files there.
++
+[source,sh]
+----
+mkdir /mnt/c/Documents\ and\ Settings/IAMZ/desktop/3drna
+cp -t /mnt/c/Documents\ and\ Settings/IAMZ/desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip
 ----
 
 

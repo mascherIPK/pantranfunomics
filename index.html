@@ -1019,15 +1019,28 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </table>
 </div>
 </li>
-</ol>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
 <li>
 <p>Create a zip archiv containing the kallisto output folders.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>zip -r kallisto.zip *_kallisto</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>zip -r kallisto.zip *_kallisto <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>-r</code> instruct <code>zip</code> to travel the directory structure recursively, that is, to include all files in the folders.</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Create a new folders on your Windows desktop and copy the files there.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/desktop/3drna
+cp -t /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</code></pre>
 </div>
 </div>
 </li>
@@ -1088,7 +1101,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-03 07:35:23 +0100
+Last updated 2023-11-03 07:41:29 +0100
 </div>
 </div>
 </body>
