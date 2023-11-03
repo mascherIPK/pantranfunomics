@@ -804,9 +804,6 @@ samtools faidx Nipponbare.fasta Chr10:13659508-13660543 &gt; pla1_Nipponbare.fas
 </div>
 </li>
 <li>
-<p>Align the first exon of PLA1 sequence of Nipponbare and IR64 using <a href="https://www.ebi.ac.uk/Tools/msa/clustalo/">Clustal Omega</a>.</p>
-</li>
-<li>
 <p>Align the two sequence using MAFFT and find SNPs between them with SNP-sites:</p>
 <div class="listingblock">
 <div class="content">
@@ -909,8 +906,17 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 <p>Create symbolic links to the annotation files and decompress them.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip .
-ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip .</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
+ln -s ~/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Decompress the zip archives.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span></span>unzip iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
+unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 </div>
 </div>
 </li>
@@ -941,8 +947,8 @@ ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1
 <p>Create symbolic links to read files.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/international_masters/downloads/GA*gz .
-ln -s ~/international_masters/downloads/WA*gz .</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/GA*gz .
+ln -s ~/downloads/WA*gz .</code></pre>
 </div>
 </div>
 </li>
@@ -950,8 +956,7 @@ ln -s ~/international_masters/downloads/WA*gz .</code></pre>
 <p>Run the quantification for a single sample.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz <span class="tok-se">\</span>
- --output GA_0908-N_1_kallisto &gt; GA_0908-N_1_kallisto.out <span class="tok-m">2</span>&gt; GA_0908-N_1_kallisto.err <span class="tok-p">&amp;</span></code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz --output GA_0908-N_1_kallisto &gt; GA_0908-N_1_kallisto.out <span class="tok-m">2</span>&gt; GA_0908-N_1_kallisto.err <span class="tok-p">&amp;</span></code></pre>
 </div>
 </div>
 </li>
@@ -974,14 +979,15 @@ ln -s ~/international_masters/downloads/WA*gz .</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>head GA_0908-N_1_kallisto/abundance.tsv <span class="tok-p">|</span> column -t
-find -L <span class="tok-p">|</span> grep abundance.tsv <span class="tok-p">|</span> wc  -l
-find -L <span class="tok-p">|</span> grep abundance.tsv <span class="tok-p">|</span> xargs wc -l
+find <span class="tok-p">|</span> grep abundance.tsv <span class="tok-p">|</span> wc  -l
+find <span class="tok-p">|</span> grep abundance.tsv <span class="tok-p">|</span> xargs wc -l
 grep -c <span class="tok-s1">&#39;^&gt;&#39;</span> iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Further analyses will be run <a href="https://github.com/wyguo/ThreeDRNAseq">3D RNA-seq</a> (<a href="https://www.biorxiv.org/content/10.1101/656686v1">paper</a>).</p>
+<p>Further analyses will be run <a href="https://github.com/wyguo/ThreeDRNAseq">3D RNA-seq</a> (<a href="https://www.biorxiv.org/content/10.1101/656686v1">paper</a>).
+We will now create the necessary input file.</p>
 </li>
 <li>
 <p>Create tables with the metadata.</p>
@@ -991,10 +997,9 @@ grep -c <span class="tok-s1">&#39;^&gt;&#39;</span> iwgsc_refseqv1.0_HighConf_CD
 cut -d . -f <span class="tok-m">1</span> transcripts.txt &gt; genes.txt
 paste -d , transcripts.txt genes.txt  &gt; transcript_genes.csv <i class="conum" data-value="1"></i><b>(1)</b>
 
-find -L -type d <span class="tok-p">|</span> grep kallisto  <span class="tok-p">|</span> cut -d / -f <span class="tok-m">2</span> <span class="tok-p">|</span> sort &gt; kallisto.txt <i class="conum" data-value="2"></i><b>(2)</b>
+find -type d <span class="tok-p">|</span> grep kallisto  <span class="tok-p">|</span> cut -d / -f <span class="tok-m">2</span> <span class="tok-p">|</span> sort &gt; kallisto.txt <i class="conum" data-value="2"></i><b>(2)</b>
 
-cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\t&#39;</span> <span class="tok-p">|</span> awk <span class="tok-s1">&#39;{print $1&quot;,&quot;$3&quot;,&quot;$4}&#39;</span> <span class="tok-se">\</span>
- <span class="tok-p">|</span> paste -d , - kallisto.txt <span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN{print &quot;stage,allele,rep,folder&quot;} {print}&#39;</span> &gt; sample_info.csv <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\t&#39;</span> <span class="tok-p">|</span> awk <span class="tok-s1">&#39;{print $1&quot;,&quot;$3&quot;,&quot;$4}&#39;</span> <span class="tok-p">|</span> paste -d , - kallisto.txt <span class="tok-p">|</span> awk <span class="tok-s1">&#39;BEGIN{print &quot;stage,allele,rep,folder&quot;} {print}&#39;</span> &gt; sample_info.csv <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1019,7 +1024,12 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Copy the Kallisto output folders for all samples to your local machine (Mac/Windows) and create a ZIP archive containing all output folders.</p>
+<p>Create a zip archiv containing the kallisto output folders.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span></span>zip -r kallisto.zip *_kallisto</code></pre>
+</div>
+</div>
 </li>
 </ol>
 </div>
@@ -1078,7 +1088,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-02 13:51:40 +0100
+Last updated 2023-11-03 07:35:23 +0100
 </div>
 </div>
 </body>

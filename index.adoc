@@ -187,13 +187,6 @@ samtools faidx Nipponbare.fasta Chr10:13659508-13660543 > pla1_Nipponbare.fasta
 cat pla1_IR64.txt | awk '$9 < $10 {print $2":"$9"-"$10} $10 < $9 {print $2":"$10"-"$9}' | sort | xargs samtools faidx  IR64.fasta  > pla1_IR64_all_hits.fasta 
 ----
 
-. Align the first exon of PLA1 sequence of Nipponbare and IR64 using https://www.ebi.ac.uk/Tools/msa/clustalo/[Clustal Omega].
-+
-////
-scp mascher@vm-101:~/international_masters/rice_assemblies/pla1_Nipponbare.fasta .
-scp mascher@vm-101:~/international_masters/rice_assemblies/pla1_IR64.fasta .
-////
-+
 . Align the two sequence using MAFFT and find SNPs between them with SNP-sites:
 +
 [source,sh]
@@ -260,8 +253,16 @@ cd ~/international_masters/wheat_rnaseq
 +
 [source,sh]
 ----
-ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip .
-ln -s ~/international_masters/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip .
+ln -s ~/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip 
+ln -s ~/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip 
+----
+
+. Decompress the zip archives.
++
+[source,sh]
+----
+unzip iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip 
+unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip 
 ----
 
 . Count the number of sequences in the file. 
@@ -284,16 +285,15 @@ kallisto index --index wheat_index iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa > 
 +
 [source,sh]
 ----
-ln -s ~/international_masters/downloads/GA*gz .
-ln -s ~/international_masters/downloads/WA*gz .
+ln -s ~/downloads/GA*gz .
+ln -s ~/downloads/WA*gz .
 ----
 
 . Run the quantification for a single sample.
 +
 [source,sh]
 ----
-kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz \
- --output GA_0908-N_1_kallisto > GA_0908-N_1_kallisto.out 2> GA_0908-N_1_kallisto.err & 
+kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz --output GA_0908-N_1_kallisto > GA_0908-N_1_kallisto.out 2> GA_0908-N_1_kallisto.err & 
 ----
 
 . Run the quantification for all samples using a loop.
@@ -314,12 +314,13 @@ ln -s /data/pre_analysis/kallisto/* .
 [source,sh]
 ----
 head GA_0908-N_1_kallisto/abundance.tsv | column -t 
-find -L | grep abundance.tsv | wc  -l 
-find -L | grep abundance.tsv | xargs wc -l
+find | grep abundance.tsv | wc  -l 
+find | grep abundance.tsv | xargs wc -l
 grep -c '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa
 ----
 
-. Further analyses will be run https://github.com/wyguo/ThreeDRNAseq[3D RNA-seq] (https://www.biorxiv.org/content/10.1101/656686v1[paper]).
+. Further analyses will be run https://github.com/wyguo/ThreeDRNAseq[3D RNA-seq] (https://www.biorxiv.org/content/10.1101/656686v1[paper]). 
+We will now create the necessary input file.
 
 . Create tables with the metadata.
 +
@@ -329,10 +330,9 @@ grep '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa | tr -d '>' | cut -d ' ' -f
 cut -d . -f 1 transcripts.txt > genes.txt 
 paste -d , transcripts.txt genes.txt  > transcript_genes.csv #<1>
 
-find -L -type d | grep kallisto  | cut -d / -f 2 | sort > kallisto.txt #<2>
+find -type d | grep kallisto  | cut -d / -f 2 | sort > kallisto.txt #<2>
 
-cat kallisto.txt  | tr _- '\t' | awk '{print $1","$3","$4}' \
- | paste -d , - kallisto.txt | awk 'BEGIN{print "stage,allele,rep,folder"} {print}' > sample_info.csv #<3>
+cat kallisto.txt  | tr _- '\t' | awk '{print $1","$3","$4}' | paste -d , - kallisto.txt | awk 'BEGIN{print "stage,allele,rep,folder"} {print}' > sample_info.csv #<3>
 ----
 <1> Assignment of transcript isoforms to genes.
 <2> List of Kallisto output directories.
@@ -342,7 +342,13 @@ scp mascher@vm-101:~/international_masters/wheat_rnaseq/sample_info.csv .
 scp mascher@vm-101:~/international_masters/wheat_rnaseq/transcript_genes.txt .
 ////
 
-. Copy the Kallisto output folders for all samples to your local machine (Mac/Windows) and create a ZIP archive containing all output folders.
+. Create a zip archiv containing the kallisto output folders.
++
+[source,sh]
+----
+zip -r kallisto.zip *_kallisto
+----
+
 
 ////
 scp mascher@vm-101:~/international_masters/wheat_rnaseq/*kallisto .
