@@ -524,7 +524,7 @@ pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
 <li><a href="#_software_installation">1. Software installation</a></li>
 <li><a href="#_comparing_two_rice_genome_assemblies">2. Comparing two rice genome assemblies</a>
 <ul class="sectlevel2">
-<li><a href="#_downloading_the_assemblies">2.1. Downloading the assemblies</a></li>
+<li><a href="#_preparing_the_data">2.1. Preparing the data</a></li>
 <li><a href="#_chromosome_wise_alignment">2.2. Chromosome-wise alignment</a></li>
 <li><a href="#_comparing_a_single_gene_in_two_assemblies">2.3. Comparing a single gene in two assemblies</a></li>
 </ul>
@@ -623,19 +623,19 @@ You will be prompted to enter your user password.</p>
 <h2 id="_comparing_two_rice_genome_assemblies">2. Comparing two rice genome assemblies</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_downloading_the_assemblies">2.1. Downloading the assemblies</h3>
+<h3 id="_preparing_the_data">2.1. Preparing the data</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Enter the downloads folder in your home directory.</p>
+<p>Enter the folder with the data for this course.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> ~/downloads</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> /media/Scripting</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Have a look at the IR64 assembly. It is described in this <a href="https://www.g3journal.org/content/10/5/1495">paper</a>. Unzip the file and have a look at it.</p>
+<p>Have a look at the IR64 assembly. It is described in this <a href="https://www.g3journal.org/content/10/5/1495">paper</a>. Have a look at the file.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>ls IR64.fasta
@@ -644,7 +644,7 @@ less IR64.fasta</code></pre>
 </div>
 </li>
 <li>
-<p>Have a look at the IR64 assembly. It is described in this <a href="https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4">paper</a>. Unzip the file and have a look at it.</p>
+<p>Have a look at the IR64 assembly. It is described in this <a href="https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4">paper</a>. Have a look at the file.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>ls Nipponbare.fasta
@@ -663,8 +663,8 @@ less Nipponbare.fasta</code></pre>
 <p>Create the working directory and change into it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir -p ~/international_masters/rice_assemblies/
-<span class="tok-nb">cd</span> ~/international_masters/rice_assemblies/</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir -p ~/international_masters/rice_assemblies
+<span class="tok-nb">cd</span> ~/international_masters/rice_assemblies</code></pre>
 </div>
 </div>
 </li>
@@ -672,8 +672,8 @@ less Nipponbare.fasta</code></pre>
 <p>Create symbolic links to the FASTA files of the assemblies in the downloads folder.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/IR64.fasta
-ln -s ~/downloads/Nipponbare.fasta</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/IR64.fasta
+ln -s /media/Scripting/Nipponbare.fasta</code></pre>
 </div>
 </div>
 </li>
@@ -690,7 +690,7 @@ samtools faidx Nipponbare.fasta</code></pre>
 <p>Align the two assemblies with <a href="https://github.com/lh3/minimap2">minimap2</a>.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>minimap2 -I100M -x asm5 Nipponbare.fasta IR64.fasta &gt; Nipponbare_IR64.paf <span class="tok-m">2</span>&gt; Nipponbare_IR64.paf.err  <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b> <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta &gt; Nipponbare_IR64.paf <span class="tok-m">2</span>&gt; Nipponbare_IR64.paf.err  <i class="conum" data-value="1"></i><b>(1)</b> <i class="conum" data-value="2"></i><b>(2)</b> <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -755,7 +755,7 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 <p>Create a symbolic link to the FASTA file with the sequence of the PLASTOCHRON1 gene (<a href="https://dx.doi.org/10.1073%2Fpnas.2636936100">PLASTOCHRON1</a>). Take a look at the sequence.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/pla1.fasta
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/pla1.fasta
 less pla1.fasta</code></pre>
 </div>
 </div>
@@ -906,8 +906,8 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 <p>Create symbolic links to the annotation files and decompress them.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
-ln -s ~/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
+ln -s /media/Scripting/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 </div>
 </div>
 </li>
@@ -947,8 +947,8 @@ unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 <p>Create symbolic links to read files.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s ~/downloads/GA*gz .
-ln -s ~/downloads/WA*gz .</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/GA*gz .
+ln -s /media/Scripting/WA*gz .</code></pre>
 </div>
 </div>
 </li>
@@ -961,7 +961,7 @@ ln -s ~/downloads/WA*gz .</code></pre>
 </div>
 </li>
 <li>
-<p>Run the quantification for all samples using a loop.</p>
+<p>Run the quantification for all samples using a loop. This will take about</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span> find <span class="tok-p">|</span> grep R1 <span class="tok-p">|</span> cut -d _ -f -3 <span class="tok-p">|</span> sort <span class="tok-p">|</span> <span class="tok-k">while</span> <span class="tok-nb">read</span> i<span class="tok-p">;</span> <span class="tok-k">do</span>
@@ -1044,10 +1044,6 @@ cp -t /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </
 </div>
 </div>
 </li>
-</ol>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
 <li>
 <p>Open the <a href="https://3drnaseq.hutton.ac.uk/app_direct/3DRNAseq/">3D RNA-seq app</a>.</p>
 </li>
@@ -1101,7 +1097,7 @@ cp -t /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-03 07:41:29 +0100
+Last updated 2023-11-15 14:06:51 +0100
 </div>
 </div>
 </body>

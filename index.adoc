@@ -55,16 +55,16 @@ install.packages('plotly')
 
 == Comparing two rice genome assemblies
 
-=== Downloading the assemblies
+=== Preparing the data
 
-. Enter the downloads folder in your home directory.
+. Enter the folder with the data for this course.
 +
 [source,sh]
 ----
-cd ~/downloads
+cd /media/Scripting
 ----
 
-. Have a look at the IR64 assembly. It is described in this https://www.g3journal.org/content/10/5/1495[paper]. Unzip the file and have a look at it.
+. Have a look at the IR64 assembly. It is described in this https://www.g3journal.org/content/10/5/1495[paper]. Have a look at the file.
 +
 [source,sh]
 ----
@@ -72,7 +72,7 @@ ls IR64.fasta
 less IR64.fasta
 ----
 
-. Have a look at the IR64 assembly. It is described in this https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4[paper]. Unzip the file and have a look at it.
+. Have a look at the IR64 assembly. It is described in this https://thericejournal.springeropen.com/articles/10.1186/1939-8433-6-4[paper]. Have a look at the file.
 +
 [source,sh]
 ----
@@ -86,16 +86,16 @@ less Nipponbare.fasta
 +
 [source,sh]
 ----
-mkdir -p ~/international_masters/rice_assemblies/
-cd ~/international_masters/rice_assemblies/
+mkdir -p ~/international_masters/rice_assemblies
+cd ~/international_masters/rice_assemblies
 ----
 
 . Create symbolic links to the FASTA files of the assemblies in the downloads folder.
 +
 [source,sh]
 ----
-ln -s ~/downloads/IR64.fasta
-ln -s ~/downloads/Nipponbare.fasta
+ln -s /media/Scripting/IR64.fasta
+ln -s /media/Scripting/Nipponbare.fasta
 ----
 
 . Create index files that record the chromosome lengths in each assembly.
@@ -110,7 +110,7 @@ samtools faidx Nipponbare.fasta
 +
 [source,sh]
 ----
-minimap2 -I100M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nipponbare_IR64.paf.err  #<1><2><3>
+minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nipponbare_IR64.paf.err  #<1><2><3>
 ----
 <1> The parameter preset `-x asm5` is suited to align assemblies from the same species. 
 <2> The value of `-I` is reduced to 100 MB from the default 4 GB to run our small VM.
@@ -151,7 +151,7 @@ cp Nipponbare_IR64.paf /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
 +
 [source,sh]
 ----
-ln -s ~/downloads/pla1.fasta 
+ln -s /media/Scripting/pla1.fasta 
 less pla1.fasta
 ----
 
@@ -253,8 +253,8 @@ cd ~/international_masters/wheat_rnaseq
 +
 [source,sh]
 ----
-ln -s ~/downloads/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip 
-ln -s ~/downloads/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip 
+ln -s /media/Scripting/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip 
+ln -s /media/Scripting/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip 
 ----
 
 . Decompress the zip archives.
@@ -285,8 +285,8 @@ kallisto index --index wheat_index iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa > 
 +
 [source,sh]
 ----
-ln -s ~/downloads/GA*gz .
-ln -s ~/downloads/WA*gz .
+ln -s /media/Scripting/GA*gz .
+ln -s /media/Scripting/WA*gz .
 ----
 
 . Run the quantification for a single sample.
@@ -296,7 +296,7 @@ ln -s ~/downloads/WA*gz .
 kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz --output GA_0908-N_1_kallisto > GA_0908-N_1_kallisto.out 2> GA_0908-N_1_kallisto.err & 
 ----
 
-. Run the quantification for all samples using a loop.
+. Run the quantification for all samples using a loop. This will take about 
 +
 [source,sh]
 ----
@@ -353,11 +353,6 @@ zip -r kallisto.zip *_kallisto #<1>
 mkdir /mnt/c/Documents\ and\ Settings/IAMZ/desktop/3drna
 cp -t /mnt/c/Documents\ and\ Settings/IAMZ/desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip
 ----
-
-
-////
-scp mascher@vm-101:~/international_masters/wheat_rnaseq/*kallisto .
-////
 
 . Open the https://3drnaseq.hutton.ac.uk/app_direct/3DRNAseq/[3D RNA-seq app].
 
