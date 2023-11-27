@@ -737,7 +737,7 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 <p>Copy the PAF file to the Windows desktop and open them.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>cp Nipponbare_IR64.paf /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/Desktop/</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>cp Nipponbare_IR64.paf /media/Desktop/</code></pre>
 </div>
 </div>
 </li>
@@ -961,7 +961,7 @@ ln -s /media/Scripting/WA*gz .</code></pre>
 </div>
 </li>
 <li>
-<p>Run the quantification for all samples using a loop. This will take about</p>
+<p>Run the quantification for all samples using a loop. This will take about three hours.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span> find <span class="tok-p">|</span> grep R1 <span class="tok-p">|</span> cut -d _ -f -3 <span class="tok-p">|</span> sort <span class="tok-p">|</span> <span class="tok-k">while</span> <span class="tok-nb">read</span> i<span class="tok-p">;</span> <span class="tok-k">do</span>
@@ -1039,8 +1039,8 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 <p>Create a new folders on your Windows desktop and copy the files there.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/desktop/3drna
-cp -t /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </span>Settings/IAMZ/desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir /media/Desktop/3drna
+cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</code></pre>
 </div>
 </div>
 </li>
@@ -1097,7 +1097,7 @@ cp -t /mnt/c/Documents<span class="tok-se">\ </span>and<span class="tok-se">\ </
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-15 14:06:51 +0100
+Last updated 2023-11-16 07:36:14 +0100
 </div>
 </div>
 </body>

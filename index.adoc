@@ -140,7 +140,7 @@ column -t Nipponbare_IR64.paf | less -S
 +
 [source,sh]
 ----
-cp Nipponbare_IR64.paf /mnt/c/Documents\ and\ Settings/IAMZ/Desktop/
+cp Nipponbare_IR64.paf /media/Desktop/
 ----
 
 . Load the PAF file into the https://tom-poorten.shinyapps.io/dotplotly_shiny/[Dotplotly] app. 
@@ -296,7 +296,7 @@ ln -s /media/Scripting/WA*gz .
 kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.gz --output GA_0908-N_1_kallisto > GA_0908-N_1_kallisto.out 2> GA_0908-N_1_kallisto.err & 
 ----
 
-. Run the quantification for all samples using a loop. This will take about 
+. Run the quantification for all samples using a loop. This will take about three hours.
 +
 [source,sh]
 ----
@@ -350,8 +350,8 @@ zip -r kallisto.zip *_kallisto #<1>
 +
 [source,sh]
 ----
-mkdir /mnt/c/Documents\ and\ Settings/IAMZ/desktop/3drna
-cp -t /mnt/c/Documents\ and\ Settings/IAMZ/desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip
+mkdir /media/Desktop/3drna
+cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip
 ----
 
 . Open the https://3drnaseq.hutton.ac.uk/app_direct/3DRNAseq/[3D RNA-seq app].
