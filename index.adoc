@@ -304,10 +304,13 @@ kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.
   kallisto quant --index wheat_index  ${i}_R1.fastq.gz ${i}_R2.fastq.gz --output ${i}_kallisto > ${i}_kallisto.out 2>  ${i}_kallisto.err 
  done
 ----
-////
-rm -rf *kallisto
-ln -s /data/pre_analysis/kallisto/* .
-////
+
+. Download the kallisto results.
++
+[source,sh]
+----
+wget "https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip"
+----
 
 . Check that there are results for samples.
 +
@@ -338,7 +341,7 @@ cat kallisto.txt  | tr _- '\t' | awk '{print $1","$3","$4}' | paste -d , - kalli
 <2> List of Kallisto output directories.
 <3> Table with experimental design.
 
-. Create a zip archiv containing the kallisto output folders.
+. Create a zip archiv containing the kallisto output folders. Not needed if you use the download "kallisto.zip" file.
 +
 [source,sh]
 ----

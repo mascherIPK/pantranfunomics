@@ -970,10 +970,14 @@ ln -s /media/Scripting/WA*gz .</code></pre>
 </div>
 </div>
 </li>
-</ol>
+<li>
+<p>Download the kallisto results.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span></span>wget <span class="tok-s2">&quot;https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip&quot;</span></code></pre>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</div>
+</li>
 <li>
 <p>Check that there are results for samples.</p>
 <div class="listingblock">
@@ -1020,7 +1024,7 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </div>
 </li>
 <li>
-<p>Create a zip archiv containing the kallisto output folders.</p>
+<p>Create a zip archiv containing the kallisto output folders. Not needed if you use the download "kallisto.zip" file.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>zip -r kallisto.zip *_kallisto <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
@@ -1097,7 +1101,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-16 07:36:14 +0100
+Last updated 2023-11-28 14:25:42 +0100
 </div>
 </div>
 </body>
