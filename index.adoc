@@ -305,13 +305,6 @@ kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.
  done
 ----
 
-. Download the kallisto results.
-+
-[source,sh]
-----
-wget "https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip"
-----
-
 . Check that there are results for samples.
 +
 [source,sh]
@@ -320,6 +313,15 @@ head GA_0908-N_1_kallisto/abundance.tsv | column -t
 find | grep abundance.tsv | wc  -l 
 find | grep abundance.tsv | xargs wc -l
 grep -c '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa
+----
+
+. Download the kallisto results. Delete the current output directories. Unzip the archive.
++
+[source,sh]
+----
+wget "https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip"
+rm -rf *_kallisto
+unzip kallisto.zip
 ----
 
 . Further analyses will be run https://github.com/wyguo/ThreeDRNAseq[3D RNA-seq] (https://www.biorxiv.org/content/10.1101/656686v1[paper]). 

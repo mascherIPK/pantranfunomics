@@ -971,14 +971,6 @@ ln -s /media/Scripting/WA*gz .</code></pre>
 </div>
 </li>
 <li>
-<p>Download the kallisto results.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>wget <span class="tok-s2">&quot;https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip&quot;</span></code></pre>
-</div>
-</div>
-</li>
-<li>
 <p>Check that there are results for samples.</p>
 <div class="listingblock">
 <div class="content">
@@ -986,6 +978,16 @@ ln -s /media/Scripting/WA*gz .</code></pre>
 find <span class="tok-p">|</span> grep abundance.tsv <span class="tok-p">|</span> wc  -l
 find <span class="tok-p">|</span> grep abundance.tsv <span class="tok-p">|</span> xargs wc -l
 grep -c <span class="tok-s1">&#39;^&gt;&#39;</span> iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Download the kallisto results. Delete the current output directories. Unzip the archive.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="sh"><span></span>wget <span class="tok-s2">&quot;https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip&quot;</span>
+rm -rf *_kallisto
+unzip kallisto.zip</code></pre>
 </div>
 </div>
 </li>
@@ -1101,7 +1103,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-28 14:25:42 +0100
+Last updated 2023-11-29 07:50:08 +0100
 </div>
 </div>
 </body>
