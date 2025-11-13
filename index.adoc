@@ -319,7 +319,7 @@ grep -c '^>' iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa
 +
 [source,sh]
 ----
-wget "https://files.ipk-gatersleben.de/file/4pjBcfR5RLNKAgio/78rhUwXFGa1njjmp/kallisto.zip"
+wget 'https://files.ipk-gatersleben.de/file/RBWEFkcdORboj1QM/zrsvWx9hzVxeEWN2/kallisto.zip'
 rm -rf *_kallisto
 unzip kallisto.zip
 ----
@@ -373,6 +373,6 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip
 
 . Visit the https://ics.hutton.ac.uk/barley-epigenome/[Barley epigenome browser].
 
-== Cereal pan-genomes at grain genes
+== Cereal pangenomes at grain genes
 
 . Cereal pangenomes are hosted at https://wheat.pw.usda.gov/GG3/[GrainGenes].
