@@ -9,7 +9,7 @@
 
 = Practical course in pan-genomics, transcriptomics and functional genomics
 
-Martin Mascher, IPK Gatersleben, November 2023
+Martin Mascher, IPK Gatersleben, November 2025
 mascher@ipk-gatersleben.de
 
 ++++
@@ -30,7 +30,7 @@ You will be prompted to enter your user password.
 +
 [source,sh]
 ----
-sudo apt install samtools kallisto minimap2 python git r-base ncbi-blast+ libssl-dev curl libcurl4-openssl-dev pandoc emboss mafft snp-sites gmap
+sudo apt install samtools cufflinks kallisto minimap2 python git r-base ncbi-blast+ libssl-dev curl libcurl4-openssl-dev pandoc emboss mafft snp-sites gmap
 ----
 
 .. http://samtools.github.io[samtools], https://github.com/lh3/minimap2[minimap2], https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download[ncbi-blast+], http://emboss.sourceforge.net[emboss], https://mafft.cbrc.jp/alignment/software/[mafft], http://sanger-pathogens.github.io/snp-sites/[snp-sites], http://research-pub.gene.com/gmap/[gmap] and http://cole-trapnell-lab.github.io/cufflinks/[cufflinks] will be used in the analysis of two rice genomes.
