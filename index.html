@@ -521,24 +521,23 @@ pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_software_installation">1. Software installation</a></li>
-<li><a href="#_comparing_two_rice_genome_assemblies">2. Comparing two rice genome assemblies</a>
+<li><a href="#_comparing_two_rice_genome_assemblies">1. Comparing two rice genome assemblies</a>
 <ul class="sectlevel2">
-<li><a href="#_preparing_the_data">2.1. Preparing the data</a></li>
-<li><a href="#_chromosome_wise_alignment">2.2. Chromosome-wise alignment</a></li>
-<li><a href="#_comparing_a_single_gene_in_two_assemblies">2.3. Comparing a single gene in two assemblies</a></li>
+<li><a href="#_preparing_the_data">1.1. Preparing the data</a></li>
+<li><a href="#_chromosome_wise_alignment">1.2. Chromosome-wise alignment</a></li>
+<li><a href="#_comparing_a_single_gene_in_two_assemblies">1.3. Comparing a single gene in two assemblies</a></li>
 </ul>
 </li>
-<li><a href="#_genebank_genomics_portal">3. Genebank genomics portal</a></li>
-<li><a href="#_analysis_of_rna_seq_of_a_wheat_mutant_and_its_wildtype">4. Analysis of RNA-seq of a wheat mutant and its wildtype</a>
+<li><a href="#_genebank_genomics_portal">2. Genebank genomics portal</a></li>
+<li><a href="#_analysis_of_rna_seq_of_a_wheat_mutant_and_its_wildtype">3. Analysis of RNA-seq of a wheat mutant and its wildtype</a>
 <ul class="sectlevel2">
-<li><a href="#_creating_a_kallisto_index">4.1. Creating a kallisto index</a></li>
-<li><a href="#_quantifying_transcript_abundance">4.2. Quantifying transcript abundance</a></li>
+<li><a href="#_creating_a_kallisto_index">3.1. Creating a kallisto index</a></li>
+<li><a href="#_quantifying_transcript_abundance">3.2. Quantifying transcript abundance</a></li>
 </ul>
 </li>
-<li><a href="#_transcriptome_atlases">5. Transcriptome atlases</a></li>
-<li><a href="#_barley_epigenome_browser">6. Barley epigenome browser</a></li>
-<li><a href="#_cereal_pangenomes_at_grain_genes">7. Cereal pangenomes at grain genes</a></li>
+<li><a href="#_transcriptome_atlases">4. Transcriptome atlases</a></li>
+<li><a href="#_barley_epigenome_browser">5. Barley epigenome browser</a></li>
+<li><a href="#_cereal_pangenomes_at_grain_genes">6. Cereal pangenomes at grain genes</a></li>
 </ul>
 </div>
 </div>
@@ -553,77 +552,10 @@ pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
 </div>
 </div>
 <div class="sect1">
-<h2 id="_software_installation">1. Software installation</h2>
-<div class="sectionbody">
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-The Virtual Machine has already been set up with all necessary software installed for the course at CIHEAM Zaragoza in November 2025.
-</td>
-</tr>
-</table>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>All the commands were tested on an Ubuntu virtual machine (VM) with standard software configuration (Ubuntu 20.04.1 LTS). The VM has 8 GB of main memory and runs on an Intel&#174; Xeon&#174; Gold 5218 CPU (2.30GHz, 2 physical cores), and has access to 500 GB of hard disk space. Fewer than 8 GB of RAM would prevent one programs we will use (minimap2) to run properly, but most steps should work with 4 GB or even 2 GB RAM. A total of 70 GB of disk space are needed to store the RNA-seq dataset we will analyze.</p>
-</li>
-<li>
-<p>Information on how to setup an Ubuntu VM were given in the
-<a href="https://github.com/eead-csic-compbio/scripting_linux_shell">course</a> of Bruno Contreras and Carlos Cantalapiedra. See their <a href="https://github.com/eead-csic-compbio/scripting_linux_shell/blob/master/session0.md">session 0</a>.</p>
-</li>
-<li>
-<p>Install the required tools with the <a href="http://manpages.ubuntu.com/manpages/bionic/man8/apt.8.html">apt</a> package manager.
-You will be prompted to enter your user password.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>sudo apt install samtools cufflinks kallisto minimap2 python git r-base ncbi-blast+ libssl-dev curl libcurl4-openssl-dev pandoc emboss mafft snp-sites gmap</code></pre>
-</div>
-</div>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p><a href="http://samtools.github.io">samtools</a>, <a href="https://github.com/lh3/minimap2">minimap2</a>, <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">ncbi-blast+</a>, <a href="http://emboss.sourceforge.net">emboss</a>, <a href="https://mafft.cbrc.jp/alignment/software/">mafft</a>, <a href="http://sanger-pathogens.github.io/snp-sites/">snp-sites</a>, <a href="http://research-pub.gene.com/gmap/">gmap</a> and <a href="http://cole-trapnell-lab.github.io/cufflinks/">cufflinks</a> will be used in the analysis of two rice genomes.</p>
-</li>
-<li>
-<p><a href="https://pachterlab.github.io/kallisto/">kallisto</a> will be used to analyse RNAseq data of wheat.</p>
-</li>
-<li>
-<p><a href="https://en.wikipedia.org/wiki/Python_(programming_language)">python</a>, <a href="https://en.wikipedia.org/wiki/Git">git</a>, <a href="https://packages.ubuntu.com/xenial/libcurl4-openssl-dev">libcurl4-openssl-dev</a>, <a href="https://curl.se">curl</a>, <a href="https://packages.debian.org/jessie/libssl-dev">libssl-dev</a>, and <a href="https://pandoc.org">pandoc</a> are dependencies of dotPlotly, a program to show alignments of two genome assemblies.</p>
-</li>
-<li>
-<p>r-base is the Ubuntu package of the <a href="https://www.r-project.org">R statistical environment</a>.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Now install the required R packages. These are also dependencies of <a href="https://github.com/tpoorten/dotPlotly">dotPlotly</a>.</p>
-</li>
-<li>
-<p>Start R by running <code>R</code> on the command line. You will be prompted to enter your password.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="r"><span></span><span class="tok-n">sudo</span> <span class="tok-n">R</span>
-<span class="tok-nf">install.packages</span><span class="tok-p">(</span><span class="tok-s">&#39;optparse&#39;</span><span class="tok-p">)</span>
-<span class="tok-nf">install.packages</span><span class="tok-p">(</span><span class="tok-s">&#39;ggplot2&#39;</span><span class="tok-p">)</span>
-<span class="tok-nf">install.packages</span><span class="tok-p">(</span><span class="tok-s">&#39;plotly&#39;</span><span class="tok-p">)</span></code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_comparing_two_rice_genome_assemblies">2. Comparing two rice genome assemblies</h2>
+<h2 id="_comparing_two_rice_genome_assemblies">1. Comparing two rice genome assemblies</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_preparing_the_data">2.1. Preparing the data</h3>
+<h3 id="_preparing_the_data">1.1. Preparing the data</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -656,7 +588,7 @@ less Nipponbare.fasta</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_chromosome_wise_alignment">2.2. Chromosome-wise alignment</h3>
+<h3 id="_chromosome_wise_alignment">1.2. Chromosome-wise alignment</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -748,7 +680,7 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_comparing_a_single_gene_in_two_assemblies">2.3. Comparing a single gene in two assemblies</h3>
+<h3 id="_comparing_a_single_gene_in_two_assemblies">1.3. Comparing a single gene in two assemblies</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -875,7 +807,7 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_genebank_genomics_portal">3. Genebank genomics portal</h2>
+<h2 id="_genebank_genomics_portal">2. Genebank genomics portal</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -887,10 +819,10 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_analysis_of_rna_seq_of_a_wheat_mutant_and_its_wildtype">4. Analysis of RNA-seq of a wheat mutant and its wildtype</h2>
+<h2 id="_analysis_of_rna_seq_of_a_wheat_mutant_and_its_wildtype">3. Analysis of RNA-seq of a wheat mutant and its wildtype</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_creating_a_kallisto_index">4.1. Creating a kallisto index</h3>
+<h3 id="_creating_a_kallisto_index">3.1. Creating a kallisto index</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -940,7 +872,7 @@ unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quantifying_transcript_abundance">4.2. Quantifying transcript abundance</h3>
+<h3 id="_quantifying_transcript_abundance">3.2. Quantifying transcript abundance</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -982,7 +914,7 @@ grep -c <span class="tok-s1">&#39;^&gt;&#39;</span> iwgsc_refseqv1.0_HighConf_CD
 </div>
 </li>
 <li>
-<p>Download the kallisto results. Delete the current output directories. Unzip the archive.</p>
+<p>If there are issues, download the pre-computed kallisto results. Delete the current output directories. Unzip the archive.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>wget <span class="tok-s1">&#39;https://files.ipk-gatersleben.de/file/RBWEFkcdORboj1QM/zrsvWx9hzVxeEWN2/kallisto.zip&#39;</span>
@@ -1065,7 +997,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_transcriptome_atlases">5. Transcriptome atlases</h2>
+<h2 id="_transcriptome_atlases">4. Transcriptome atlases</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1077,7 +1009,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_barley_epigenome_browser">6. Barley epigenome browser</h2>
+<h2 id="_barley_epigenome_browser">5. Barley epigenome browser</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1089,7 +1021,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cereal_pangenomes_at_grain_genes">7. Cereal pangenomes at grain genes</h2>
+<h2 id="_cereal_pangenomes_at_grain_genes">6. Cereal pangenomes at grain genes</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1103,7 +1035,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-17 10:23:18 +0100
+Last updated 2025-11-17 16:00:57 +0100
 </div>
 </div>
 </body>
