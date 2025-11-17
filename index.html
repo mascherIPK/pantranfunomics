@@ -701,7 +701,7 @@ samtools faidx Nipponbare.fasta</code></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The value of <code>-I</code> is reduced to 100 MB from the default 4 GB to run our small VM.</td>
+<td>The value of <code>-I</code> is reduced to 500 MB from the default 4 GB to reduce the memory footprint.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -971,7 +971,7 @@ ln -s /media/Scripting/WA*gz .</code></pre>
 </div>
 </li>
 <li>
-<p>Check that there are results for samples.</p>
+<p>Check that there are results for all samples.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="sh"><span></span>head GA_0908-N_1_kallisto/abundance.tsv <span class="tok-p">|</span> column -t
@@ -1103,7 +1103,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-13 09:49:55 +0100
+Last updated 2025-11-17 10:23:18 +0100
 </div>
 </div>
 </body>

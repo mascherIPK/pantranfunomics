@@ -113,7 +113,7 @@ samtools faidx Nipponbare.fasta
 minimap2 -I500M -x asm5 Nipponbare.fasta IR64.fasta > Nipponbare_IR64.paf 2> Nipponbare_IR64.paf.err  #<1><2><3>
 ----
 <1> The parameter preset `-x asm5` is suited to align assemblies from the same species. 
-<2> The value of `-I` is reduced to 100 MB from the default 4 GB to run our small VM.
+<2> The value of `-I` is reduced to 500 MB from the default 4 GB to reduce the memory footprint.
 <3> `>` and `2>` are used to direct the standard output (stdout) and standard error (stderr).
 
 . Send the `minimap2` process to the background with Ctrl-Z. Resume it with `bg`. Check with `top` that it's running.
@@ -305,7 +305,7 @@ kallisto quant --index wheat_index GA_0908-N_1_R1.fastq.gz GA_0908-N_1_R2.fastq.
  done
 ----
 
-. Check that there are results for samples.
+. Check that there are results for all samples.
 +
 [source,sh]
 ----
