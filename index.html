@@ -562,7 +562,7 @@ pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
 <p>Enter the folder with the data for this course.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> /media/Scripting</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span><span class="tok-nb">cd</span> /home/iamz/materials_Mascher</code></pre>
 </div>
 </div>
 </li>
@@ -595,8 +595,8 @@ less Nipponbare.fasta</code></pre>
 <p>Create the working directory and change into it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir -p ~/international_masters/rice_assemblies
-<span class="tok-nb">cd</span> ~/international_masters/rice_assemblies</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir -p ~/rice_assemblies
+<span class="tok-nb">cd</span> ~/rice_assemblies</code></pre>
 </div>
 </div>
 </li>
@@ -604,8 +604,8 @@ less Nipponbare.fasta</code></pre>
 <p>Create symbolic links to the FASTA files of the assemblies in the downloads folder.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/IR64.fasta
-ln -s /media/Scripting/Nipponbare.fasta</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /home/iamz/materials_Mascher/IR64.fasta
+ln -s /home/iamz/materials_Mascher/Nipponbare.fasta</code></pre>
 </div>
 </div>
 </li>
@@ -665,14 +665,10 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 </div>
 </div>
 </li>
-<li>
-<p>Copy the PAF file to the Windows desktop and open them.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>cp Nipponbare_IR64.paf /media/Desktop/</code></pre>
+</ol>
 </div>
-</div>
-</li>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Load the PAF file into the <a href="https://tom-poorten.shinyapps.io/dotplotly_shiny/">Dotplotly</a> app.</p>
 </li>
@@ -687,7 +683,7 @@ column -t Nipponbare_IR64.paf <span class="tok-p">|</span> less -S</code></pre>
 <p>Create a symbolic link to the FASTA file with the sequence of the PLASTOCHRON1 gene (<a href="https://dx.doi.org/10.1073%2Fpnas.2636936100">PLASTOCHRON1</a>). Take a look at the sequence.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/pla1.fasta
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /home/iamz/materials_Mascher/pla1.fasta
 less pla1.fasta</code></pre>
 </div>
 </div>
@@ -829,8 +825,8 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 <p>Create the project directory and change to it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir ~/international_masters/wheat_rnaseq
-<span class="tok-nb">cd</span> ~/international_masters/wheat_rnaseq</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir ~/wheat_rnaseq
+<span class="tok-nb">cd</span> ~/wheat_rnaseq</code></pre>
 </div>
 </div>
 </li>
@@ -838,8 +834,8 @@ snp-sites -v pla1_gmap_mafft.fasta</code></pre>
 <p>Create symbolic links to the annotation files and decompress them.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
-ln -s /media/Scripting/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /home/iamz/materials_Mascher/iwgsc_refseqv1.0_HighConf_CDS_2017Mar13.fa.zip
+ln -s /home/iamz/materials_Mascher/Scripting/iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 </div>
 </div>
 </li>
@@ -879,8 +875,8 @@ unzip iwgsc_refseqv1.0_FunctionalAnnotation_v1.zip</code></pre>
 <p>Create symbolic links to read files.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /media/Scripting/GA*gz .
-ln -s /media/Scripting/WA*gz .</code></pre>
+<pre class="pygments highlight"><code data-lang="sh"><span></span>ln -s /home/iamz/materials_Mascher/GA*gz .
+ln -s /home/iamz/materials_Mascher/WA*gz .</code></pre>
 </div>
 </div>
 </li>
@@ -973,15 +969,10 @@ cat kallisto.txt  <span class="tok-p">|</span> tr _- <span class="tok-s1">&#39;\
 </table>
 </div>
 </li>
-<li>
-<p>Create a new folders on your Windows desktop and copy the files there.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="sh"><span></span>mkdir /media/Desktop/3drna
-cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</code></pre>
+</ol>
 </div>
-</div>
-</li>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Open the <a href="https://3drnaseq.hutton.ac.uk/app_direct/3DRNAseq/">3D RNA-seq app</a>.</p>
 </li>
@@ -1035,7 +1026,7 @@ cp -t /media/Desktop/3drna sample_info.csv transcript_genes.csv kallisto.zip</co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-17 16:00:57 +0100
+Last updated 2025-11-18 14:36:40 +0100
 </div>
 </div>
 </body>
